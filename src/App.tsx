@@ -1,12 +1,25 @@
-import React from 'react';
-import './App.css';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import PageMain from 'pages/PageMain';
+import { MAIN } from 'routes/routes';
+import HeaderContainer from 'containers/HeaderContainer';
 
 function App() {
   return (
-      <h1 className="text-2xl  font-bold underline text-red-600">
-        Simple React Typescript Tailwind Sample
-      </h1>
+    <>
+      <HeaderContainer />
+      <Routes>
+        <Route path={MAIN} element={<PageMain />} />
+      </Routes>
+    </>
   );
 }
 
-export default App;
+function AppWrapper() {
+  return (
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>
+  );
+}
+
+export default AppWrapper;
