@@ -2,6 +2,8 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import PageMain from 'pages/PageMain';
 import { MAIN } from 'routes/routes';
 import HeaderContainer from 'containers/HeaderContainer';
+import { Provider } from 'react-redux';
+import store from './store';
 
 function App() {
   return (
@@ -16,9 +18,11 @@ function App() {
 
 function AppWrapper() {
   return (
-    <BrowserRouter>
-      <App />
-    </BrowserRouter>
+    <Provider store={store}>
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
+    </Provider>
   );
 }
 
