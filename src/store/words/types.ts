@@ -6,3 +6,10 @@ export interface IWord {
   definition_url: string;
   voice_url: string;
 }
+
+export interface IFiltersInFavoriteWords {
+  search: string;
+  adjectiveChecked: boolean;
+  verbChecked: boolean;
+  nounChecked: boolean;
+}

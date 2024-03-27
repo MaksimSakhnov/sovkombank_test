@@ -1,3 +1,3 @@
 export type SideBarContainerProps = {
-  withFilters: boolean;
+  withFilterStarred: boolean;
 };

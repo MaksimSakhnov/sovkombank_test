@@ -1,45 +1,57 @@
 import { useAppDispatch } from 'store';
-import { useEffect, useState, UIEvent } from 'react';
-
+import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { getWords, selectIsLoading, selectWordsData } from 'store/words';
-import { WordsList } from 'components/WordsList/WordsList';
+import {
+  getWords,
+  selectCurrentPage,
+  selectIsLoading,
+  selectQuery,
+  selectTotalPages,
+  selectWordsData,
+  wordsActions,
+} from 'store/words';
+import useSaveStarredValues from 'hooks/useSaveStarredValues';
+import PaginationContainer from 'containers/PaginationContainer';
+import WordsList from 'components/WordsList';
 import { IWord } from 'store/words/types';
 
 export function WordsListContainer() {
   const dispatch = useAppDispatch();
+  useSaveStarredValues();
+
   const wordsData = useSelector(selectWordsData);
   const isLoading = useSelector(selectIsLoading);
-  const [currentPage, setCurrentPage] = useState(0);
-  const [visibleItems, setVisibleItems] = useState<Array<IWord>>([]);
-  const [scrollTop, setScrollTop] = useState(0);
+  const totalPages = useSelector(selectTotalPages);
+  const curPage = useSelector(selectCurrentPage);
+  const query = useSelector(selectQuery);
 
-  useEffect(() => {
-    dispatch(getWords({ page: currentPage }));
-  }, [currentPage, dispatch]);
+  const [currentPage, setCurrentPage] = useState(curPage);
 
-  useEffect(() => {
-    // Отображаем только видимые элементы
-    const containerHeight = window.innerHeight - 100;
-    const itemHeight = 20; // Высота каждого элемента
-    const itemsPerPage = Math.ceil(containerHeight / itemHeight);
-    const startIndex = Math.floor(scrollTop / itemHeight);
-    const endIndex = Math.min(startIndex + itemsPerPage + 20, wordsData.length);
-
-    setVisibleItems(wordsData.slice(startIndex, endIndex));
-  }, [scrollTop, wordsData]);
-
-  const handleScroll = (e: UIEvent<HTMLDivElement>) => {
-    const { scrollTop, scrollHeight, clientHeight } = e.currentTarget;
-    if (
-      !isLoading &&
-      scrollTop + clientHeight >= scrollHeight - 100 &&
-      scrollTop > 0
-    ) {
-      setCurrentPage((prevPage) => prevPage + 1);
-    }
-    setScrollTop(scrollTop);
+  const onAddToStarredClick = (word: IWord) => {
+    dispatch(wordsActions.addToStarred(word));
   };
 
-  return <WordsList wordsData={visibleItems} handleScroll={handleScroll} />;
+  const onRemoveFromStarredClick = (word: IWord) => {
+    dispatch(wordsActions.removeFromStarred(word));
+  };
+
+  useEffect(() => {
+    dispatch(getWords({ page: currentPage, query: query }));
+  }, [currentPage, dispatch, query]);
+
+  return (
+    <WordsList
+      wordsData={wordsData}
+      isLoading={isLoading}
+      onAddToStarredClick={onAddToStarredClick}
+      onRemoveFromStarredClick={onRemoveFromStarredClick}
+      pagination={
+        <PaginationContainer
+          totalPages={totalPages}
+          currentPage={currentPage}
+          setCurrentPage={setCurrentPage}
+        />
+      }
+    />
+  );
 }

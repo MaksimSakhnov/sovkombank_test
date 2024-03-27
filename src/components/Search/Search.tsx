@@ -1,6 +1,6 @@
 import { SearchProps } from './Search.type';
 
-export function Search({ onChange, onClick, value }: SearchProps) {
+export function Search({ onChange, value }: SearchProps) {
   return (
     <div className="relative">
       <input
@@ -10,7 +10,7 @@ export function Search({ onChange, onClick, value }: SearchProps) {
         value={value}
         onChange={(e) => onChange(e.target.value)}
       />
-      <div className="absolute top-5 right-5 z-10" onClick={onClick}>
+      <div className="absolute top-5 right-5 z-10">
         <svg
           className="text-gray-600 h-4 w-4 fill-current"
           xmlns="http://www.w3.org/2000/svg"

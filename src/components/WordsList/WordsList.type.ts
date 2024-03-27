@@ -1,7 +1,10 @@
 import { IWord } from 'store/words/types';
-import { UIEvent } from 'react';
+import { ReactNode } from 'react';
 
 export type WordsListProps = {
   wordsData: Array<IWord>;
-  handleScroll: (e: UIEvent<HTMLDivElement>) => void;
+  onAddToStarredClick: (arg: IWord) => void;
+  onRemoveFromStarredClick: (arg: IWord) => void;
+  isLoading?: boolean;
+  pagination?: ReactNode;
 };

@@ -1,3 +1,3 @@
 import wordsSlice from './slice';
 
-export const buildingsActions = wordsSlice.actions;
+export const wordsActions = wordsSlice.actions;

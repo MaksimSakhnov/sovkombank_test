@@ -1,3 +1,3 @@
-import {WordsList} from './WordsList'
+import { WordsList } from './WordsList';
 
-export default WordsList
+export default WordsList;

@@ -1,0 +1,1 @@
+export const STARRED_VALUES = 'STARRED_VALUES';
