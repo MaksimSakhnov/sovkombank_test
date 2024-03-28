@@ -74,6 +74,7 @@ export function WordsList({
       );
     }
   }, [
+    hasFilters,
     isLoading,
     onAddToStarredClick,
     onRemoveFromStarredClick,

@@ -1,11 +1,14 @@
+import { Suspense, lazy } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { Provider } from 'react-redux';
-import store from './store';
-import PageMain from 'pages/PageMain';
-import { PageStarred } from 'pages/PageStarred/PageStarred';
+import store from 'store';
 import HeaderContainer from 'containers/HeaderContainer';
+import Loader from 'components/Loader';
 import useInitialValues from 'hooks/useInitialValues';
 import { MAIN, STARRED } from 'routes/routes';
+
+const PageMain = lazy(() => import('pages/PageMain'));
+const PageStarred = lazy(() => import('pages/PageStarred'));
 
 function App() {
   useInitialValues();
@@ -24,7 +27,9 @@ function AppWrapper() {
   return (
     <Provider store={store}>
       <BrowserRouter>
-        <App />
+        <Suspense fallback={<Loader />}>
+          <App />
+        </Suspense>
       </BrowserRouter>
     </Provider>
   );
