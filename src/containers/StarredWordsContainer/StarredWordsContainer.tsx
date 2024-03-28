@@ -10,7 +10,7 @@ import {
 import useSaveStarredValues from 'hooks/useSaveStarredValues';
 import WordsList from 'components/WordsList';
 import { IWord } from 'store/words/types';
-import { STARRED_VALUES } from '../../constants/constants';
+import { STARRED_VALUES } from 'constants/constants';
 
 const reorder = (list: Array<IWord>, startIndex: number, endIndex: number) => {
   const result = Array.from(list);

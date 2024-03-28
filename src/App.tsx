@@ -2,10 +2,10 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import store from './store';
 import PageMain from 'pages/PageMain';
+import { PageStarred } from 'pages/PageStarred/PageStarred';
 import HeaderContainer from 'containers/HeaderContainer';
 import useInitialValues from 'hooks/useInitialValues';
 import { MAIN, STARRED } from 'routes/routes';
-import { PageStarred } from './pages/PageStarred/PageStarred';
 
 function App() {
   useInitialValues();
