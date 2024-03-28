@@ -1,5 +1,5 @@
 import { useAppDispatch } from 'store';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import {
   getWords,
@@ -35,6 +35,16 @@ export function WordsListContainer() {
     dispatch(wordsActions.removeFromStarred(word));
   };
 
+  const renderPagination = useCallback(() => {
+    return (
+      <PaginationContainer
+        totalPages={totalPages}
+        currentPage={currentPage}
+        setCurrentPage={setCurrentPage}
+      />
+    );
+  }, [currentPage, totalPages]);
+
   useEffect(() => {
     dispatch(getWords({ page: currentPage, query: query }));
   }, [currentPage, dispatch, query]);
@@ -45,13 +55,7 @@ export function WordsListContainer() {
       isLoading={isLoading}
       onAddToStarredClick={onAddToStarredClick}
       onRemoveFromStarredClick={onRemoveFromStarredClick}
-      pagination={
-        <PaginationContainer
-          totalPages={totalPages}
-          currentPage={currentPage}
-          setCurrentPage={setCurrentPage}
-        />
-      }
+      pagination={renderPagination()}
     />
   );
 }

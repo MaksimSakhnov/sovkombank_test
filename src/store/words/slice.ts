@@ -23,25 +23,34 @@ const wordsSlice = createSlice({
         !filters.verbChecked
       ) {
         state.filteredFavoriteWords = [...state.favoriteWords];
+        state.hasFilters = false;
       } else {
-        state.filteredFavoriteWords = state.favoriteWords.filter((el) => {
-          if (filters.search !== '') {
-            const passesSearch = el.word
-              .toLowerCase()
-              .includes(filters.search.toLowerCase());
+        const hasFilters =
+          filters.adjectiveChecked ||
+          filters.nounChecked ||
+          filters.verbChecked;
 
-            if (!passesSearch) return false;
-          }
+        state.filteredFavoriteWords = state.favoriteWords
+          .filter((el) => {
+            if (filters.search !== '') {
+              const passesSearch = el.word
+                .toLowerCase()
+                .startsWith(filters.search.toLowerCase());
 
-          if (
-            (filters.adjectiveChecked && el.pos !== 'adjective') ||
-            (filters.nounChecked && el.pos !== 'noun') ||
-            (filters.verbChecked && el.pos !== 'verb')
-          )
-            return false;
+              if (!passesSearch) return false;
+            }
 
-          return true;
-        });
+            if (
+              hasFilters &&
+              ((filters.adjectiveChecked && el.pos === 'adjective') ||
+                (filters.nounChecked && el.pos === 'noun') ||
+                (filters.verbChecked && el.pos === 'verb'))
+            ) {
+              return true;
+            } else return !hasFilters;
+          })
+          .sort((el1, el2) => el1.word.localeCompare(el2.word));
+        state.hasFilters = true;
       }
     },
     initFilteredFavoriteWords: (state) => {
@@ -52,6 +61,9 @@ const wordsSlice = createSlice({
     },
     setFavoriteWords: (state, action: PayloadAction<Array<IWord>>) => {
       state.favoriteWords = action.payload;
+      if (!state.isInit) {
+        state.filteredFavoriteWords = [...state.favoriteWords];
+      }
     },
     addToStarred: (state, action: PayloadAction<IWord>) => {
       state.favoriteWords = [...state.favoriteWords, action.payload];
@@ -60,6 +72,7 @@ const wordsSlice = createSlice({
       state.favoriteWords = state.favoriteWords.filter(
         (el) => el.id !== action.payload.id,
       );
+      state.filteredFavoriteWords = [...state.favoriteWords];
     },
   },
 
@@ -70,9 +83,14 @@ const wordsSlice = createSlice({
         state.isLoading = false;
         state.currentPage = action.payload.meta.currentPage;
         state.totalPages = action.payload.meta.totalPages;
+        state.hasFilters = false;
       })
       .addCase(getWords.pending, (state) => {
         state.isLoading = true;
+      })
+      .addCase(getWords.rejected, (state) => {
+        state.isLoading = false;
+        state.hasFilters = false;
       });
   },
 });

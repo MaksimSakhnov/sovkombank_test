@@ -32,6 +32,10 @@ function selectFilteredFavoriteWords(state: RootState) {
   return state.words.filteredFavoriteWords;
 }
 
+function selectHasFilters(state: RootState) {
+  return state.words.hasFilters;
+}
+
 export {
   selectFavoriteWords,
   selectWordsData,
@@ -41,4 +45,5 @@ export {
   selectQuery,
   selectIsInit,
   selectFilteredFavoriteWords,
+  selectHasFilters,
 };

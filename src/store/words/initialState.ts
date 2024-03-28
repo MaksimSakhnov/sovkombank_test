@@ -8,6 +8,7 @@ const wordsInitialState = {
   currentPage: 1 as number,
   totalPages: 0 as number,
   query: '' as string,
+  hasFilters: false as boolean,
   isInit: false as boolean,
 };
 
