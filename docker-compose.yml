@@ -1,0 +1,11 @@
+version: '3'
+services:
+  client:
+    build:
+      context: ./
+      dockerfile: Dockerfile
+      args:
+        REACT_APP_BASE_URL: ${REACT_APP_BASE_URL}
+    restart: always
+    ports:
+      - '3000:3000'
