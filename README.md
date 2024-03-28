@@ -4,7 +4,7 @@
 
 Доступно по [адресу](http://188.225.42.31:3000/) 
 
-## СТЭК
+## Стэк
 Front
 - React, TS, RTK, react-beautiful-dnd, tailwind
 
@@ -13,6 +13,13 @@ Back (https://github.com/MaksimSakhnov/sovkombank_test_back)
 
 Данные
 - Файл из открытого доступа oxford-5k.csv (лежит в корне репозитория)
+
+## Локальный запуск
+
+Измените адрес бэкэнда в .env и сделайте:
+
+`docker-compose up -d --build`
+
 
 ## Функционал
 
